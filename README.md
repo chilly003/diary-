@@ -1,2 +1,5 @@
-# diary-
-Daily life, ideas, etc.
+# 장고 공부 연습
+1. 어렵다!!!!
+2. URL 태그 사용법부터 적용법까지 연습
+3. 이한영의 Django 입문 책 활용
+4. css까지 꾸며보기
