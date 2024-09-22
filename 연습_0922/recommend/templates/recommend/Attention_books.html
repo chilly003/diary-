@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>[주목할 만한 신간🎖️]</h1>
+    {% for item in result %}
+        <img src="{{itme.cover.url}}" alt="">
+        <p>제목 : {{ item.title }}</p>
+        <p>저자: {{ item.author }}</p>
+        <p>설명 : {{ item.description }}</p>
+        <hr>
+    {% endfor %}
+
+{% endblock content %}
