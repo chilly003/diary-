@@ -1,6 +1,13 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <h1>[베스트셀러]</h1>
+    <h1>[베스트셀러💖]</h1>
+    {% for item in result %}
+        <div class = 'container'><img src="{{ item.cover }}" alt="사진"></div>
+        <p>제목 : {{ item.title }}</p>
+        <p>저자: {{ item.author }}</p>
+        <p>설명 : {{ item.description }}</p>
+        <hr>
+    {% endfor %}
 
 {% endblock content %}

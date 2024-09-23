@@ -1,13 +1,14 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <h1>[주목할 만한 신간🎖️]</h1>
+    <h1 class= "mb-5">[주목할 만한 신간🎖️]</h1>
     {% for item in result %}
-        <img src="{{itme.cover.url}}" alt="">
+    <div class = 'container'><img src="{{ item.cover }}" alt="사진">
         <p>제목 : {{ item.title }}</p>
         <p>저자: {{ item.author }}</p>
         <p>설명 : {{ item.description }}</p>
-        <hr>
+        </div>
+        <hr class = "m-5">
     {% endfor %}
 
 {% endblock content %}
