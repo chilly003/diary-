@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1 class= "mb-5">[독후감📚]</h1>
+    <h5>들은 것은 잊어버리고 본 것은 기억하고 직접 해본 것은 이해한다. -공자-</h5>
+    <a href="{% url 'recommend:new' %}" class="btn btn-outline-success btn-lg fw-bold" role="button">[독후감 작성]</a>
+    {% for report in report_all %}
+      <div class="card" style="width: 18rem;">
+        <div class="card-body">
+          <p>{{report.pk}}번째 독후감</p>
+          <p>제목 : {{report.name}}</p>
+          <p>저자 : {{report.author}}</p>
+          <p>완성 체크✅ : {{report.is_completed}}</p>
+          <p>작성일 : {{report.created_at}}</p>
+          <p>수정일 : {{report.add_at}}</p>
+          <a href="{% url "recommend:detail" report.pk %}" class="btn btn-primary fw-bold" role="button">[상세]</a>
+        </div>
+      </div>
+    {% empty %}
+      <h2>작성된 독후감이 없습니다. 마음의 양식을 채워보세요.</h2>
+    {% endfor %}
+
+{% endblock content %}

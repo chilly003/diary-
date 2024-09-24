@@ -10,10 +10,13 @@
 </head>
 <body>
     <h2>도서 추천🍀</h2>
+    <div class = 'fw-bold text-center'>
     <a href="{% url "recommend:Attention_books" %}">[주목할 만한 신간]</a> |
     <a href="{% url "recommend:Bestseller_books" %}">[베스트셀러]</a> |
     <a href="{% url "recommend:Vlogger_books" %}">[블로거 베스트셀러]</a> |
-    <a href="{% url "recommend:Editor_books" %}">[내가 찜한 책]</a>
+    <a href="{% url "recommend:My_book" %}">[내가 찜한 책]</a> |
+    <a href="{% url "recommend:book_report" %}">[독후감]]</a>
+    </div>
     {% block content %}
     {% endblock content %}
 </body>

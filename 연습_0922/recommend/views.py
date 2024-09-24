@@ -1,5 +1,6 @@
 import requests
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from . models import Report
 
 API_URL = 'https://www.aladin.co.kr/ttb/api/ItemList.aspx'
 API_KEY = 'ttbchfhchf031305002'
@@ -69,9 +70,8 @@ def Bestseller_books(request):
 
     return render(request, 'recommend/Bestseller_books.html', context)
 
-def Editor_books(request):
-
-    return render(request, 'recommend/Editor_books.html')
+def My_book(request):
+    return render(request, 'recommend/my_book.html')
 
 def Vlogger_books(request):
 
@@ -105,6 +105,45 @@ def Vlogger_books(request):
     }
 
     return render(request, 'recommend/Vlogger_books.html', context)
+
+############################################################
+###########독후감 관련 함수 모임############################
+
+def Book_report(request):
+    all_report = Report.objects.all()
+    context = {
+        'report_all' : all_report
+    }
+    return render(request, 'report_book/book_report.html', context)
+
+
+def detail(request, pk):
+    pk_report = Report.objects.get(pk = pk)
+    context = {
+        'report' : pk_report
+    }
+    return render(request, 'report_book/detail.html', context)
+
+
+def new(request):
+    return render(request, 'report_book/new.html')
+
+def create(request):
+    name = request.POST.get('name')
+    author = request.POST.get('author')
+    report = request.POST.get('report')
+    make_report = Report(name=name,author=author,report=report)
+    make_report.save()
+    return redirect('recommend:book_report')
+
+def delete(request,pk):
+    pk_report = Report.objects.get(pk = pk)
+    pk_report.delete()
+    return redirect('recommend:book_report')
+
+############################################################
+
+
 
 def main(request):
     return render(request, 'base.html')

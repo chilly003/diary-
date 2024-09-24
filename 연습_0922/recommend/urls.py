@@ -4,9 +4,15 @@ from . import views
 app_name = 'recommend'
 
 urlpatterns = [
-    path('Attention_books', views.Attention_books, name= 'Attention_books'),
-    path('Bestseller_books', views.Bestseller_books, name= 'Bestseller_books'),
-    path('Editor_books', views.Editor_books, name= 'Editor_books'),
-    path('Vlogger_books', views.Vlogger_books, name= 'Vlogger_books'),
+    path('Attention_books/', views.Attention_books, name= 'Attention_books'),
+    path('Bestseller_books/', views.Bestseller_books, name= 'Bestseller_books'),
+    path('My_book/', views.My_book, name= 'My_book'),
+    path('Vlogger_books/', views.Vlogger_books, name= 'Vlogger_books'),
+    path('book_report/', views.Book_report, name= 'book_report'),
+    path('<int:pk>/', views.detail, name= 'detail'),
+    path('new/', views.new, name= 'new'),
+    path('create/', views.create, name='create'),
+    path('<int:pk>/delete/', views.delete, name='delete'),
+   
 ]
 

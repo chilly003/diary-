@@ -3,10 +3,11 @@
 {% block content %}
     <h1>[베스트셀러💖]</h1>
     {% for item in result %}
-        <div class = 'container'><img src="{{ item.cover }}" alt="사진"></div>
+        <div class = 'container'><img src="{{ item.cover }}" class= 'mt-2' alt="사진">
         <p>제목 : {{ item.title }}</p>
         <p>저자: {{ item.author }}</p>
         <p>설명 : {{ item.description }}</p>
+        </div>
         <hr>
     {% endfor %}
 
