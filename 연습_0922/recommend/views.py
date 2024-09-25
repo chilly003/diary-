@@ -1,6 +1,7 @@
 import requests
 from django.shortcuts import render, redirect
 from . models import Report
+from . forms import ReportForm
 
 API_URL = 'https://www.aladin.co.kr/ttb/api/ItemList.aspx'
 API_KEY = 'ttbchfhchf031305002'
@@ -129,17 +130,28 @@ def new(request):
     return render(request, 'report_book/new.html')
 
 def create(request):
-    name = request.POST.get('name')
-    author = request.POST.get('author')
-    report = request.POST.get('report')
-    make_report = Report(name=name,author=author,report=report)
-    make_report.save()
-    return redirect('recommend:book_report')
+    if request.method == "POST":
+        form = ReportForm(request.POST)
+        if form.is_valid():
+            report = form.save()
+            return redirect('recommend:detail', report.pk)
+    form = ReportForm()
+    context = {
+        'form':form
+    }
+    return render(request, 'report_book/new.html', context)
+
 
 def delete(request,pk):
     pk_report = Report.objects.get(pk = pk)
     pk_report.delete()
     return redirect('recommend:book_report')
+
+
+def update(request, pk):
+    
+    if request.method == "POST":
+        pass
 
 ############################################################
 

@@ -6,14 +6,13 @@
 
     <form action="{% url "recommend:create" %}" method="POST">
         {% csrf_token %}
-        {{ form.as_p }}
-        {% comment %} <label for="name">제목 : </label>
+        <label for="name">제목 : </label>
         <input type="text" name="name" id="name"> <br>
         <label for="author">저자 : </label>
         <input type="text" name="author" id="author"> <br>
         <label for="report">독후감 : </label>
-        <textarea name="report" id="name" cols="120" rows="30"></textarea> {% endcomment %}
+        <textarea name="report" id="name" cols="120" rows="30"></textarea>
         <input type="submit" value="제출" class = 'btn btn-primary'>
     </form>
-    <a href="{% url 'recommend:book_report' %}">[BACK]</a>
+    <a href="{% url 'recommend:detail' report.pk %}">[BACK]</a>
 {% endblock content %}
