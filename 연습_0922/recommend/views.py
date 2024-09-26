@@ -6,7 +6,7 @@ from . forms import ReportForm
 API_URL = 'https://www.aladin.co.kr/ttb/api/ItemList.aspx'
 API_KEY = 'ttbchfhchf031305002'
 
-# Create your views here.
+# API 관련 함수들
 def Attention_books(request):
     params = {
         'ttbkey': API_KEY,
@@ -107,8 +107,8 @@ def Vlogger_books(request):
 
     return render(request, 'recommend/Vlogger_books.html', context)
 
-############################################################
-###########독후감 관련 함수 모임############################
+
+# 독후감 관련 함수 모임
 
 def Book_report(request):
     all_report = Report.objects.all()
@@ -126,12 +126,9 @@ def detail(request, pk):
     return render(request, 'report_book/detail.html', context)
 
 
-def new(request):
-    return render(request, 'report_book/new.html')
-
 def create(request):
     if request.method == "POST":
-        form = ReportForm(request.POST)
+        form = ReportForm(request.POST, request.FILES)
         if form.is_valid():
             report = form.save()
             return redirect('recommend:detail', report.pk)
@@ -149,13 +146,21 @@ def delete(request,pk):
 
 
 def update(request, pk):
-    
+    pk_report = Report.objects.get(pk=pk)
     if request.method == "POST":
-        pass
+        form = ReportForm(request.POST, instance=pk_report)
+        if form.is_valid():
+            form.save()
+            return redirect('recommend:detail', pk_report.pk)
+        
+    form = ReportForm(instance=pk_report)
+    context = {
+        'form' : form,
+        'report': pk_report,
+    }
+    return render(request, 'report_book/update.html', context)
 
 ############################################################
-
-
 
 def main(request):
     return render(request, 'base.html')

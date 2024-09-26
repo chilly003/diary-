@@ -25,3 +25,21 @@ class ReportForm(forms.ModelForm):
                 }
             ),
         }
+        labels = {
+            'name':'책이름',
+            'author':'저자',
+            'report': '독후감',
+            'is_completed':'작성을 완료하셨나요?',
+            'image':'사진 제출',
+        }
+        error_messages = {
+            'name': {
+                'invalid': '책 이름을 입력해 주세요!',
+            },
+            'author':{
+                'invalid': '저자를 입력해 주세요!',
+            },
+            'report':{
+                'invalid': '독후감을 입력해 주세요!',
+            },
+        }

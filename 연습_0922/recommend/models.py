@@ -8,4 +8,5 @@ class Report(models.Model):
     is_completed = models.BooleanField(default=False)
     created_at = models.DateField(auto_now_add=True)
     add_at = models.DateField(auto_now=True)
+    image = models.ImageField(blank=True)
     # preference =

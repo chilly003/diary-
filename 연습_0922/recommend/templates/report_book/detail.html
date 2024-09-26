@@ -4,19 +4,25 @@
     <h1 class= "mb-5">{{report.pk}}번째 독후감</h1>
     <h5>들은 것은 잊어버리고 본 것은 기억하고 직접 해본 것은 이해한다. -공자-</h5>
       <div class = 'm-2'>
+        {% if report.image %}
+          <img src="{{report.image.url}}" class="" alt="img" style="width: 20rem;">
+        {% endif %}
         <p>제목 : {{report.name}}</p>
         <p>저자 : {{report.author}}</p>
         <p>독후감 : {{report.report}}</p>
         <p>완성 체크✅ : {{report.is_completed}}</p>
         <p>작성일 : {{report.created_at}}</p>
         <p>수정일 : {{report.add_at}}</p>
-        <a href="{% url 'recommend:book_report' %}" class="btn btn-dark fw-bold" role="button">[뒤로가기]</a>
-    
-        <form action="{% url 'recommend:delete' report.pk %}">
-          {% csrf_token %}
-        <br>
-        <input type="submit" value = '[삭제]' class="btn btn-warning fw-bold" role="button" >
-        </form>
+        
+        <div class="btn-group" role="group" aria-label="Basic checkbox toggle button group">
+          <a href="{% url 'recommend:update' report.pk %}" class="btn btn-outline-primary fw-bold" role="button">[수정하기]</a>
+          <form action="{% url 'recommend:delete' report.pk %}">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-outline-danger fw-bold" role="button" >[삭제]</button>
+          </form>
+          <a href="{% url 'recommend:book_report' %}" class="btn btn-outline-secondary fw-bold" role="button">[뒤로가기]</a>
+        </div>
+
       </div>
 
 {% endblock content %}

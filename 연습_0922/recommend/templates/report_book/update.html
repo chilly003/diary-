@@ -4,15 +4,11 @@
     <h1 class= "mb-5">[새로운 독후감📚]</h1>
     <h5>들은 것은 잊어버리고 본 것은 기억하고 직접 해본 것은 이해한다. -공자-</h5>
 
-    <form action="{% url "recommend:create" %}" method="POST">
+    <form action="{% url "recommend:update" report.pk %}" method="POST" enctype='multipart/form-data'>
         {% csrf_token %}
-        <label for="name">제목 : </label>
-        <input type="text" name="name" id="name"> <br>
-        <label for="author">저자 : </label>
-        <input type="text" name="author" id="author"> <br>
-        <label for="report">독후감 : </label>
-        <textarea name="report" id="name" cols="120" rows="30"></textarea>
+        {{ form.as_p }}     
         <input type="submit" value="제출" class = 'btn btn-primary'>
     </form>
-    <a href="{% url 'recommend:detail' report.pk %}">[BACK]</a>
+    <a href="{% url 'recommend:detail' report.pk %}">[뒤로가기]</a>
+
 {% endblock content %}
