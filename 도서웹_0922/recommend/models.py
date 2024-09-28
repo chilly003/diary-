@@ -9,4 +9,8 @@ class Report(models.Model):
     created_at = models.DateField(auto_now_add=True)
     add_at = models.DateField(auto_now=True)
     image = models.ImageField(blank=True)
-    # preference =
+    star = models.IntegerField(choices=[(1, '⭐'), (2, '⭐⭐'), 
+                                        (3, '⭐⭐⭐'),(4,'⭐⭐⭐⭐'),
+                                        (5,'⭐⭐⭐⭐⭐')
+                                        ], default=3)
+

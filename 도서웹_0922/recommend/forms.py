@@ -31,6 +31,7 @@ class ReportForm(forms.ModelForm):
             'report': '독후감',
             'is_completed':'작성을 완료하셨나요?',
             'image':'사진 제출',
+            'star':'당신의 별점은?'
         }
         error_messages = {
             'name': {

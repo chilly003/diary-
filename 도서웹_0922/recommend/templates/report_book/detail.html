@@ -10,13 +10,15 @@
         <p>제목 : {{report.name}}</p>
         <p>저자 : {{report.author}}</p>
         <p>독후감 : {{report.report}}</p>
-        <p>완성 체크✅ : {{report.is_completed}}</p>
+        <p>완성 체크✅ : <span style="color: {% if report.is_completed %}green{% else %}red{% endif %};">
+          {% if report.is_completed %}추천{% else %}비추천{% endif %}
         <p>작성일 : {{report.created_at}}</p>
         <p>수정일 : {{report.add_at}}</p>
-        
+        <p>별점 : {% if report.star == 1 %}⭐{% elif report.star == 2 %}⭐⭐{% elif report.star == 3 %}⭐⭐⭐{% elif report.star == 4 %}⭐⭐⭐⭐{% elif report.star == 5 %}⭐⭐⭐⭐⭐{% endif %}</p>
+      
         <div class="btn-group" role="group" aria-label="Basic checkbox toggle button group">
           <a href="{% url 'recommend:update' report.pk %}" class="btn btn-outline-primary fw-bold" role="button">[수정하기]</a>
-          <form action="{% url 'recommend:delete' report.pk %}">
+          <form action="{% url 'recommend:delete' report.pk %}" method = 'POST'>
             {% csrf_token %}
             <button type="submit" class="btn btn-outline-danger fw-bold" role="button" >[삭제]</button>
           </form>

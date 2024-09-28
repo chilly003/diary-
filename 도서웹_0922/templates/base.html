@@ -12,31 +12,31 @@
 
     <nav class="navbar navbar-expand-lg bg-body-tertiary">
         <div class="container-fluid">
-          <a class="navbar-brand" href="#">도서 추천🍀</a>
+          <a class="navbar-brand" href="{% url "recommend:book_report" %}">도서 추천🍀</a>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0 ">
               <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="#">[주목할 만한 신간] |</a>
+                <a class="nav-link active " aria-current="page" href="{% url "recommend:Attention_books" %}">[주목할 만한 신간] </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link active " aria-current="page" href="{% url "recommend:Bestseller_books" %}">[베스트셀러]</a> 
+              </li>
+              <li class="nav-item">
+                <a class="nav-link active " aria-current="page" href="{% url "recommend:Vlogger_books" %}">[블로거 베스트셀러]</a> 
+              </li>
+              <li class="nav-item">
+                <a class="nav-link active " aria-current="page" href="{% url "recommend:My_book" %}">[내가 찜한 책]</a> 
+              </li>
+              <li class="nav-item">
+                <a class="nav-link active " aria-current="page" href="{% url "recommend:book_report" %}">[독후감]</a>
               </li>
             </ul>
-            <form class="d-flex" role="search">
-              <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-              <button class="btn btn-outline-success" type="submit">Search</button>
-            </form>
           </div>
         </div>
       </nav>
-
-    <div class = 'fw-bold text-center'>
-    <a href="{% url "recommend:Attention_books" %}">[주목할 만한 신간]</a> |
-    <a href="{% url "recommend:Bestseller_books" %}">[베스트셀러]</a> |
-    <a href="{% url "recommend:Vlogger_books" %}">[블로거 베스트셀러]</a> |
-    <a href="{% url "recommend:My_book" %}">[내가 찜한 책]</a> |
-    <a href="{% url "recommend:book_report" %}">[독후감]]</a>
-    </div>
     {% block content %}
     {% endblock content %}
 </body>
