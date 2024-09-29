@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+<h1>만들기</h1>
+<form action="{% url "app:create" %}" method = "POST">
+    {% csrf_token %}
+    {{form.as_p}}
+    <input type="submit" value= '제출'>
+</form>
+
+<a href="{% url "app:index" %}">뒤로</a>
+
+
+{% endblock content %}

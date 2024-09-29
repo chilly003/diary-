@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+<h1>{{app.pk}}번째일</h1>
+
+<p>할일 : {{app.work}}</p>
+<p>내용 : {{app.todo}}</p>
+
+<form action="{% url "app:delete" app.pk %}" method = 'POST'>
+    {% csrf_token %}
+    <input type="submit" value='지우기' >
+</form>
+<a href="{% url "app:update" app.pk %}">수정</a>
+<hr>
+<a href="{% url "app:index" %}">뒤로가기</a>
+
+{% endblock content %}

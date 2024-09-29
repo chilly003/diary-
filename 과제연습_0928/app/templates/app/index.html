@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+
+<h1>여기서 할일을 정합니다.</h1>
+
+<a href="{% url "app:create" %}">만들기</a>
+
+{% for app in apps %}
+<ul>
+<a href="{% url "app:detail" app.pk %}">{{app.work}}</a>
+</ul>
+{% endfor %}
+
+{% endblock content %}

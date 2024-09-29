@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>상세페이지</h1>
+
+<p>할일 : {{app.name}}</p>
+<p>내용 : {{app.report}}</p>
+{% if app.image %}
+<p>사진 : <img src="{{app.image.url}}" alt="img"></p>
+{% endif %}
+<a href="{% url "app:index" %}">뒤로가기</a>
+
+<form action="{% url "app:update" app.pk %}">
+    {% csrf_token %}
+    <input type="submit" value = '수정하기'>
+</form>
+
+{% endblock content %}

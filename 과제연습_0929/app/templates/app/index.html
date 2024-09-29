@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1>메인페이지</h1>
+<a href="{% url "app:create" %}">새로 만들기</a>
+{% for app in apps %}
+<ul>
+    <p>할일 : <a href="{% url "app:detail" app.pk %}">{{app.name}}</a></p>
+    <hr>
+</ul>
+
+{% endfor %}
+
+{% endblock content %}
