@@ -1,3 +1,4 @@
+
 h2 {
     text-align: center;
 }
@@ -6,6 +7,12 @@ h1 {
     text-align: center;
 }
 
+* {
+    font-family: "Noto Serif KR", serif;
+    font-optical-sizing: auto;
+    font-weight: 600;
+    font-style: normal;
+  }
 
 /* img {
     justify-content: center;
