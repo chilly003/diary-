@@ -1,9 +1,11 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <h1 class= "mb-5">[독후감📚]</h1>
+    <h1 class="mb-4 mt-4">[독후감📚]</h1>
     <h5>들은 것은 잊어버리고 본 것은 기억하고 직접 해본 것은 이해한다. -공자-</h5>
-    <a href="{% url 'recommend:create' %}" class="btn btn-outline-success btn-lg fw-bold" role="button">[독후감 작성]</a>
+    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+      <a href="{% url 'recommend:create' %}" class="btn btn-outline-success btn-lg fw-bold" role="button">[독후감 작성]</a>
+    </div>
     {% for report in report_all %}
 
       <div class="card mt-3" style="width: 18rem;">

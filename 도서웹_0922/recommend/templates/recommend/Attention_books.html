@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <h1 class= "mb-5">[주목할 만한 신간🎖️]</h1>
+    <h1 class="mb-4 mt-4">[주목할 만한 신간🎖️]</h1>
     {% for item in result %}
     <div class = 'container'><img src="{{ item.cover }}" class= 'mt-2' alt="사진">
         <p>제목 : {{ item.title }}</p>
