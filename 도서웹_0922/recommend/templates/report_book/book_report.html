@@ -1,6 +1,8 @@
 {% extends "base.html" %}
 
 {% block content %}
+
+{% if request.user.is_authenticated %}
     <h1 class="mb-4 mt-4">[독후감📚]</h1>
     <h5>들은 것은 잊어버리고 본 것은 기억하고 직접 해본 것은 이해한다. -공자-</h5>
     <div class="d-grid gap-2 d-md-flex justify-content-md-end">
@@ -12,7 +14,6 @@
         {% if report.image %}
           <img src="{{report.image.url}}" class="card-img-top" alt="img" style="width: 18rem;">
           {% endif %}
-        
         <div class="card-body">
           <p>{{report.pk}}번째 독후감</p>
           <p>제목 : {{report.name}}</p>
@@ -25,7 +26,12 @@
         </div>
       </div>
     {% empty %}
-      <h2>작성된 독후감이 없습니다. 마음의 양식을 채워보세요.</h2>
+      <h2 class="mt-5">작성된 독후감이 없습니다. 마음의 양식을 채워보세요.</h2>
     {% endfor %}
 
+{% else %}
+
+<h2>사이트 이용을 위해 로그인을 진행해 주세요.</h2>
+<a href="{% url "accounts:login" %}"><p class ="text-center">로그인하러 가기</p></a>
+{% endif %}
 {% endblock content %}

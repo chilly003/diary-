@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1 class="mb-4 text-center">어서오세요.  READ:page 입니다.</h1>
+
+<div class="card">
+  <div class="card-body">
+    <h3 class="mb-4">페이지 이용을 위해 로그인 해주세요.</h3>
+    <form action="{% url "accounts:login" %}" method="POST">
+      {% csrf_token %}
+      {{ form.as_p }}
+    <input type="submit" class="btn btn-outline-primary" value="로그인">
+    </form>
+  </div>
+</div>
+  
+<h4 class="mt-5">
+    계정이 없으신가요?
+</h4>
+<a href="{% url "accounts:signup" %}"><p>계정 만들기⚙</p></a>
+
+{% endblock content %}
+

@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1 class="text-center mt-3">{{user.username}}님의 공간 입니다.</h1>
+
+<div class="card mt-5">
+    <div class="card-body">
+        <p class="">당신의 이름 : {{user.first_name}}</p>
+        <p class="">당신의 성 : {{user.last_name}}</p>
+        <p class="">당신의 이메일 : {{user.email}}</p>
+        <p class="">당신의 계정 생성일 : {{user.date_joined}}</p>
+        <div class='d-grid gap-2 d-md-flex justify-content-md-end'>
+            <a href="{% url "accounts:update" %}" class="btn btn-outline-primary">개인 정보 수정</a>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

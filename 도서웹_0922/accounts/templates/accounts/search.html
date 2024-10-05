@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>{{query}}의 검색 결과</h1>
+{% for result in results %}
+<p class="pt-3 ps-3">{{forloop.counter}} : <a href="{{result.link}}" target="_blank">{{result.title}}</a></p>
+<hr>
+{% endfor %}
+{% endblock content %}

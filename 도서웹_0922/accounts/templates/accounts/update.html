@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1 class="text-center">{{user.username}}님의 공간 입니다.</h1>
+
+<div class="card">
+    <div class="card-body">
+    <h1 class="mb-4 mt-2">회원정보 수정</h1>
+    <form action="{% url "accounts:update" %}" method="POST">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <input type="submit" class="btn btn-outline-success fw-bold">
+    </form>  
+</div>
+</div>
+
+<p class="mt-4">계정 삭제를 원하시면 아래를 버튼을 눌러주세요.</p>
+<p>단, 삭제 버튼을 누를 시 바로 사전 경고 없이 삭제되니 주의해주세요.</p>
+<a href="#" class="btn btn-outline-danger">계정을 삭제합니다.</a>
+
+{% endblock content %}

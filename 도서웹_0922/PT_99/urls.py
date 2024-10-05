@@ -20,9 +20,13 @@ from recommend.views import main #들어가자 마자 보이는거 설정
 ###이미지 받고 경로
 from django.conf import settings
 from django.conf.urls.static import static
+from accounts.views import change_password
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('',main),
     path('recommend/', include('recommend.urls')),
+    path('accounts/', include('accounts.urls')),
+    path('<int:user_pk>/password/', change_password, name='change_password'),
+    
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
