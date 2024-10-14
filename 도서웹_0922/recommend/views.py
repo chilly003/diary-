@@ -1,7 +1,8 @@
 import requests
 from django.shortcuts import render, redirect
-from . models import Report
-from . forms import ReportForm
+from django.contrib.auth.decorators import login_required
+from . models import Report, Comment
+from . forms import ReportForm, CommentForm
 
 API_URL = 'https://www.aladin.co.kr/ttb/api/ItemList.aspx'
 API_KEY = 'ttbchfhchf031305002'
@@ -120,12 +121,18 @@ def Book_report(request):
 
 def detail(request, pk):
     pk_report = Report.objects.get(pk = pk)
+    comment_form = CommentForm()
+    comments = pk_report.comment_set.all()
+
     context = {
-        'report' : pk_report
+        'report' : pk_report,
+        'comment_form' : comment_form,
+        'comments': comments
     }
     return render(request, 'report_book/detail.html', context)
 
 
+@login_required
 def create(request):
     if request.method == "POST":
         form = ReportForm(request.POST, request.FILES)
@@ -139,12 +146,14 @@ def create(request):
     return render(request, 'report_book/new.html', context)
 
 
+@login_required
 def delete(request,pk):
     pk_report = Report.objects.get(pk = pk)
     pk_report.delete()
     return redirect('recommend:book_report')
 
 
+@login_required
 def update(request, pk):
     pk_report = Report.objects.get(pk=pk)
     if request.method == "POST":
@@ -164,3 +173,28 @@ def update(request, pk):
 
 def main(request):
     return render(request, 'base.html')
+
+@login_required
+def comments_create(request, pk):
+    report = Report.objects.get(pk=pk)
+    comment_form = CommentForm(request.POST)
+
+    if comment_form.is_valid():
+        comment = comment_form.save(commit=False)
+        comment.report = report
+        comment.user = request.user
+        comment.save()
+        return redirect('recommend:detail', report.pk)
+    context = {
+        'report' : report,
+        'comment_form': comment_form,
+    }
+    return render(request, 'report_book/detail.html', context)
+
+@login_required
+def comments_delete(request, article_pk, comment_pk):
+    comment = Comment.objects.get(pk=comment_pk)
+    report = Report.objects.get(pk=article_pk)
+    if request.user == comment.user:
+        comment.delete()
+    return redirect('recommend:detail', report.pk)

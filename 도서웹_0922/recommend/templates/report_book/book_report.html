@@ -3,34 +3,39 @@
 {% block content %}
 
 {% if request.user.is_authenticated %}
-    <h1 class="mb-4 mt-4">[독후감📚]</h1>
-    <h5>들은 것은 잊어버리고 본 것은 기억하고 직접 해본 것은 이해한다. -공자-</h5>
+    <h1 class="mb-4 mt-4">독후감📚</h1>
+    <h5 class="text-center">들은 것은 잊어버리고 본 것은 기억하고 직접 해본 것은 이해한다. -공자-</h5>
     <div class="d-grid gap-2 d-md-flex justify-content-md-end">
       <a href="{% url 'recommend:create' %}" class="btn btn-outline-success btn-lg fw-bold" role="button">[독후감 작성]</a>
     </div>
-    {% for report in report_all %}
 
-      <div class="card mt-3" style="width: 18rem;">
-        {% if report.image %}
-          <img src="{{report.image.url}}" class="card-img-top" alt="img" style="width: 18rem;">
-          {% endif %}
-        <div class="card-body">
-          <p>{{report.pk}}번째 독후감</p>
-          <p>제목 : {{report.name}}</p>
-          <p>저자 : {{report.author}}</p>
-          <p>이 책을 추천하나요? : <span style="color: {% if report.is_completed %}green{% else %}red{% endif %};">
-            {% if report.is_completed %}추천{% else %}비추천{% endif %}
-          <p>작성일 : {{report.created_at}}</p>
-          <p>별점 : {% if report.star == 1 %}⭐{% elif report.star == 2 %}⭐⭐{% elif report.star == 3 %}⭐⭐⭐{% elif report.star == 4 %}⭐⭐⭐⭐{% elif report.star == 5 %}⭐⭐⭐⭐⭐{% endif %}</p>
-          <a href="{% url "recommend:detail" report.pk %}" class="btn btn-primary fw-bold" role="button">[상세]</a>
+    <div class="row row-cols-1 row-cols-md-3 g-3">
+      {% for report in report_all %}
+      <div class="col">
+        <div class="card mt-3" style="width: 18rem;">
+          {% if report.image %}
+            <img src="{{report.image.url}}" class="card-img-top" alt="img" style="width: 18rem;">
+            {% endif %}
+          <div class="card-body">
+            <p class="text-center fs-5">{{report.user}}님의 {{report.pk}}번째 독후감</p>
+            <hr>
+            <p>제목 : {{report.name}}</p>
+            <p>저자 : {{report.author}}</p>
+            <p>이 책을 추천하나요? : <span style="color: {% if report.is_completed %}green{% else %}red{% endif %};">
+              {% if report.is_completed %}추천{% else %}비추천{% endif %}
+            <p>작성일 : {{report.created_at}}</p>
+            <p>별점 : {% if report.star == 1 %}⭐{% elif report.star == 2 %}⭐⭐{% elif report.star == 3 %}⭐⭐⭐{% elif report.star == 4 %}⭐⭐⭐⭐{% elif report.star == 5 %}⭐⭐⭐⭐⭐{% endif %}</p>
+            <a href="{% url "recommend:detail" report.pk %}" class="btn btn-outline-primary" role="button">[상세]</a>
+          </div>
         </div>
       </div>
     {% empty %}
       <h2 class="mt-5">작성된 독후감이 없습니다. 마음의 양식을 채워보세요.</h2>
     {% endfor %}
+  </div>
+
 
 {% else %}
-
 <h2>사이트 이용을 위해 로그인을 진행해 주세요.</h2>
 <a href="{% url "accounts:login" %}"><p class ="text-center">로그인하러 가기</p></a>
 {% endif %}

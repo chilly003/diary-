@@ -14,5 +14,10 @@
         </div>
     </div>
 </div>
+<form class="mt-5 d-flex justify-content-end"
+ action="{% url "accounts:logout" %}" method="POST">
+    {% csrf_token %}
+    <input type="submit" class="btn btn-outline-danger fw-bold" value="로그아웃" >
+</form>
 
 {% endblock content %}

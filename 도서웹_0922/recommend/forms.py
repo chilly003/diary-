@@ -1,5 +1,5 @@
 from django import forms
-from . models import Report
+from . models import Report, Comment
 
 class ReportForm(forms.ModelForm):
     class Meta:
@@ -29,7 +29,7 @@ class ReportForm(forms.ModelForm):
             'name':'책이름',
             'author':'저자',
             'report': '독후감',
-            'is_completed':'작성을 완료하셨나요?',
+            'is_completed':'이 책을 추천하시나요?',
             'image':'사진 제출',
             'star':'당신의 별점은?'
         }
@@ -44,3 +44,8 @@ class ReportForm(forms.ModelForm):
                 'invalid': '독후감을 입력해 주세요!',
             },
         }
+
+class CommentForm(forms.ModelForm):
+    class Meta:
+        model = Comment
+        fields = ('content',)
