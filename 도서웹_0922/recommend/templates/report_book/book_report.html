@@ -6,7 +6,7 @@
     <h1 class="mb-4 mt-4">독후감📚</h1>
     <h5 class="text-center">들은 것은 잊어버리고 본 것은 기억하고 직접 해본 것은 이해한다. -공자-</h5>
     <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-      <a href="{% url 'recommend:create' %}" class="btn btn-outline-success btn-lg fw-bold" role="button">[독후감 작성]</a>
+      <a href="{% url 'recommend:create' %}" class="btn btn-outline-success btn-lg fw-bold" role="button">독후감 작성</a>
     </div>
 
     <div class="row row-cols-1 row-cols-md-3 g-3">
@@ -25,7 +25,7 @@
               {% if report.is_completed %}추천{% else %}비추천{% endif %}
             <p>작성일 : {{report.created_at}}</p>
             <p>별점 : {% if report.star == 1 %}⭐{% elif report.star == 2 %}⭐⭐{% elif report.star == 3 %}⭐⭐⭐{% elif report.star == 4 %}⭐⭐⭐⭐{% elif report.star == 5 %}⭐⭐⭐⭐⭐{% endif %}</p>
-            <a href="{% url "recommend:detail" report.pk %}" class="btn btn-outline-primary" role="button">[상세]</a>
+            <a href="{% url "recommend:detail" report.pk %}" class="btn btn-outline-primary" role="button">상세</a>
           </div>
         </div>
       </div>

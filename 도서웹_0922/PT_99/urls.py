@@ -28,5 +28,4 @@ urlpatterns = [
     path('recommend/', include('recommend.urls')),
     path('accounts/', include('accounts.urls')),
     path('<int:user_pk>/password/', change_password, name='change_password'),
-    
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

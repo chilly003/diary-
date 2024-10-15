@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import login as auth_login
 from django.contrib.auth import logout as auth_logout
-from django.contrib.auth import update_session_auth_hash
+from django.contrib.auth import update_session_auth_hash, get_user_model
 from django.contrib.auth.forms import AuthenticationForm, PasswordChangeForm
 from django.contrib.auth.decorators import login_required
 from .forms import CustomUserCreationForm, CustomUserChangeForm
@@ -9,6 +9,7 @@ from bs4 import BeautifulSoup
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from .models import Article
+
 
 
 # Create your views here.
@@ -92,10 +93,28 @@ def change_password(request, user_pk):
 
 
 @login_required
-def my(request, ):
-    return render(request, 'accounts/my.html')
+def my(request, username):
+    User = get_user_model()
+    person = User.objects.get(username=username)
+    context = {
+        'person': person,
+    }
+    return render(request, 'accounts/my.html', context)
 
 
+@login_required
+def follow(request, pk):
+    User = get_user_model()
+    person = User.objects.get(pk=pk)
+    if person != request.user:
+        if request.user in person.followers.all():
+            person.followers.remove(request.user)
+        else:
+            person.followers.add(request.user)
+    return redirect('accounts:my', person.username)
+
+
+####웹 크롤링####
 def get_google_data(keyword):
     url = f"https://www.google.com/search?q={keyword}"
     # Chrome 옵션 설정
@@ -159,3 +178,4 @@ def search(request):
         return render(request, 'accounts/search.html', context)
     
     return render(request, 'accounts/search.html')
+####

@@ -1,23 +1,76 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h1 class="text-center mt-3">{{user.username}}님의 공간 입니다.</h1>
+<h1 class="text-center mt-3">{{person.username}}님의 공간 입니다.</h1>
 
-<div class="card mt-5">
+<div>
+    <div class="">
+      팔로잉: {{person.followings.all|length}} / 팔로워 : {{person.followers.all|length}}
+    </div>
+    {% if request.user != person %}
+      <div>
+        <form action="{% url "accounts:follow" person.pk %}" method="POST">
+          {% csrf_token %}
+          {% if request.user in person.followers.all %}
+            <input type="submit" class="btn btn-outline-secondary btn-sm" value="Unfollow">
+          {% else %}
+            <input type="submit" class="btn btn-outline-primary btn-sm" value="Follow">
+          {% endif %}
+        </form>
+      </div>
+    {% endif %}
+</div>
+
+
+
+{% if request.user == person %}
+<div class="card mt-5 p-2">
     <div class="card-body">
-        <p class="">당신의 이름 : {{user.first_name}}</p>
-        <p class="">당신의 성 : {{user.last_name}}</p>
-        <p class="">당신의 이메일 : {{user.email}}</p>
-        <p class="">당신의 계정 생성일 : {{user.date_joined}}</p>
+        <p class="">당신의 이름 : {{person.first_name}}</p>
+        <p class="">당신의 성 : {{person.last_name}}</p>
+        <p class="">당신의 이메일 : {{person.email}}</p>
+        <p class="">당신의 계정 생성일 : {{person.date_joined}}</p>
         <div class='d-grid gap-2 d-md-flex justify-content-md-end'>
             <a href="{% url "accounts:update" %}" class="btn btn-outline-primary">개인 정보 수정</a>
         </div>
     </div>
 </div>
-<form class="mt-5 d-flex justify-content-end"
- action="{% url "accounts:logout" %}" method="POST">
-    {% csrf_token %}
-    <input type="submit" class="btn btn-outline-danger fw-bold" value="로그아웃" >
-</form>
+{% endif %}
+
+
+
+<h2 class="mt-5 mb-4 text-start"> {{person.username}} 님이 작성한 독후감</h2>
+<div class="row row-cols-1 row-cols-md-3 g-3">
+    {% for report in person.report_set.all %}
+    <div class="col">
+        <div class="card mt-3" style="width: 18rem;">
+        {% if report.image %}
+            <img src="{{report.image.url}}" class="card-img-top" alt="img" style="width: 18rem;">
+            {% endif %}
+        <div class="card-body">
+            <p class="text-center fs-5">{{report.user}}님의 {{report.pk}}번째 독후감</p>
+            <hr>
+            <p>제목 : {{report.name}}</p>
+            <p>저자 : {{report.author}}</p>
+            <p>이 책을 추천하나요? : <span style="color: {% if report.is_completed %}green{% else %}red{% endif %};">
+            {% if report.is_completed %}추천{% else %}비추천{% endif %}
+            <p>작성일 : {{report.created_at}}</p>
+            <p>별점 : {% if report.star == 1 %}⭐{% elif report.star == 2 %}⭐⭐{% elif report.star == 3 %}⭐⭐⭐{% elif report.star == 4 %}⭐⭐⭐⭐{% elif report.star == 5 %}⭐⭐⭐⭐⭐{% endif %}</p>
+            <a href="{% url "recommend:detail" report.pk %}" class="btn btn-outline-primary" role="button">상세</a>
+        </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+        {% comment %} <div class="col">
+            <h2 class="mb-4"> {{person.username}} 님이 작성한 댓글</h2>
+            {% for comment in person.comment_set.all %}
+            <div class="mt-2">
+                {{comment.content}}
+            </div>
+            {% endfor %}
+        </div> {% endcomment %}
+
 
 {% endblock content %}

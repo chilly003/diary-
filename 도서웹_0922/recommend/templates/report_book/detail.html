@@ -6,9 +6,9 @@
     
     <div class = 'mt-3'>
 
-        {% if report.image %}
-          <img src="{{report.image.url}}" class="" alt="img" style="width: 20rem;">
-        {% endif %}
+      {% if report.image %}
+        <img src="{{report.image.url}}" class="" alt="img" style="width: 20rem;">
+      {% endif %}
         <p>제목 : {{report.name}}</p>
         <p>저자 : {{report.author}}</p>
         <p>독후감 : {{report.report}}</p>
@@ -17,19 +17,18 @@
         <p>작성일 : {{report.created_at}}</p>
         <p>수정일 : {{report.add_at}}</p>
         <p>별점 : {% if report.star == 1 %}⭐{% elif report.star == 2 %}⭐⭐{% elif report.star == 3 %}⭐⭐⭐{% elif report.star == 4 %}⭐⭐⭐⭐{% elif report.star == 5 %}⭐⭐⭐⭐⭐{% endif %}</p>
-        
-        {% if request.user == report.user %}
-          <div class="btn-group" role="group" aria-label="Basic checkbox toggle button group">
-            <a href="{% url 'recommend:update' report.pk %}" class="btn btn-outline-primary fw-bold" role="button">수정하기</a>
-            <form action="{% url 'recommend:delete' report.pk %}" method = 'POST'>
-              {% csrf_token %}
-              <button type="submit" class="btn btn-outline-danger fw-bold" role="button" >삭제</button>
-            </form>
-            <a href="{% url 'recommend:book_report' %}" class="btn btn-outline-secondary fw-bold" role="button">뒤로가기</a>
-          </div>
-        {% endif %}
-
-      </div>
+      {% if request.user == report.user %}
+        <div class="btn-group" role="group" aria-label="Basic outlined example">
+          <a href="{% url 'recommend:update' report.pk %}" class="btn btn-outline-primary fw-bold" role="button">수정하기</a>
+          <form action="{% url 'recommend:delete' report.pk %}" method = 'POST'>
+            {% csrf_token %}
+            <button type="submit" class="btn btn-outline-danger fw-bold" role="button" >삭제</button>
+          </form>
+          <a href="{% url 'recommend:book_report' %}" class="btn btn-outline-secondary fw-bold" role="button">뒤로가기</a>
+        </div>
+      {% endif %}
+    </div>
+    <a href="{% url "accounts:my" report.user.username %}">{{report.user}}님이 공간으로 가기</a>
 
 
     <h4 class="mt-4">댓글 목록</h4>
@@ -41,7 +40,7 @@
           {% if request.user == comment.user %}
             <form action="{% url "recommend:comments_delete" report.pk comment.pk %}" method="POST">
               {% csrf_token %}
-              <input type="submit" value="삭제">
+              <input type="submit" value="삭제" class="btn btn-outline-secondary btn-sm">
             </form>
           {% endif %}
         </li>
@@ -57,7 +56,5 @@
     </form>
   
     <hr>
-    
-
 
 {% endblock content %}
