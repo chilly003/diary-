@@ -4,7 +4,14 @@ from . models import Report, Comment
 class ReportForm(forms.ModelForm):
     class Meta:
         model = Report
-        fields = '__all__'
+        fields = (
+            'name',
+            'author',
+            'report',
+            'is_completed',
+            'image',
+            'star'
+        )
         widgets = {
             'name' : forms.TextInput(
                 attrs= {

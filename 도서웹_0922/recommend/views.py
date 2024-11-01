@@ -1,6 +1,9 @@
 import requests
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
+from django.views.decorators.http import require_http_methods, require_POST, require_safe
 from django.contrib.auth.decorators import login_required
+from django.views.decorators.http import require_POST
+from django.http import JsonResponse
 from . models import Report, Comment
 from . forms import ReportForm, CommentForm
 
@@ -137,7 +140,9 @@ def create(request):
     if request.method == "POST":
         form = ReportForm(request.POST, request.FILES)
         if form.is_valid():
-            report = form.save()
+            report = form.save(commit=False)
+            report.user = request.user
+            report.save()
             return redirect('recommend:detail', report.pk)
     form = ReportForm()
     context = {
@@ -147,11 +152,14 @@ def create(request):
 
 
 @login_required
+@require_POST
 def delete(request,pk):
-    pk_report = Report.objects.get(pk = pk)
-    pk_report.delete()
-    return redirect('recommend:book_report')
-
+    report = get_object_or_404(Report, pk = pk)
+    if request.user == report.user:
+        report.delete()
+        return JsonResponse({'ci_delete':True})
+    return JsonResponse({'ci_delete':False})
+    
 
 @login_required
 def update(request, pk):
@@ -193,8 +201,9 @@ def comments_create(request, pk):
 
 @login_required
 def comments_delete(request, article_pk, comment_pk):
-    comment = Comment.objects.get(pk=comment_pk)
-    report = Report.objects.get(pk=article_pk)
-    if request.user == comment.user:
-        comment.delete()
-    return redirect('recommend:detail', report.pk)
+    if request.method == 'POST':
+        comment = Comment.objects.get(pk=comment_pk)
+        if request.user == comment.user:
+            comment.delete()
+            return JsonResponse({'success': True})
+    return JsonResponse({'success': False})

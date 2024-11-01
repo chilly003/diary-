@@ -12,15 +12,16 @@
         <p>제목 : {{report.name}}</p>
         <p>저자 : {{report.author}}</p>
         <p>독후감 : {{report.report}}</p>
-        <p>완성 체크✅ : <span style="color: {% if report.is_completed %}green{% else %}red{% endif %};">
+        <p>도서 추천 : <span style="color: {% if report.is_completed %}green{% else %}red{% endif %};">
           {% if report.is_completed %}추천{% else %}비추천{% endif %}
         <p>작성일 : {{report.created_at}}</p>
         <p>수정일 : {{report.add_at}}</p>
         <p>별점 : {% if report.star == 1 %}⭐{% elif report.star == 2 %}⭐⭐{% elif report.star == 3 %}⭐⭐⭐{% elif report.star == 4 %}⭐⭐⭐⭐{% elif report.star == 5 %}⭐⭐⭐⭐⭐{% endif %}</p>
+      
       {% if request.user == report.user %}
         <div class="btn-group" role="group" aria-label="Basic outlined example">
           <a href="{% url 'recommend:update' report.pk %}" class="btn btn-outline-primary fw-bold" role="button">수정하기</a>
-          <form action="{% url 'recommend:delete' report.pk %}" method = 'POST'>
+          <form id = 'delete-form' data-report-id="{{report.pk}}">
             {% csrf_token %}
             <button type="submit" class="btn btn-outline-danger fw-bold" role="button" >삭제</button>
           </form>
@@ -35,13 +36,11 @@
     <p>{{ comments|length }}개의 댓글이 있습니다.</p>
     <ul>
       {% for comment in comments %}
-        <li>
+        <li id="comment-{{ comment.pk }}">
           {{ comment.user.username }} - {{ comment.content }}
           {% if request.user == comment.user %}
-            <form action="{% url "recommend:comments_delete" report.pk comment.pk %}" method="POST">
-              {% csrf_token %}
-              <input type="submit" value="삭제" class="btn btn-outline-secondary btn-sm">
-            </form>
+            <button class="delete-comment btn btn-outline-secondary btn-sm" 
+            data-comment-id="{{ comment.pk }}" data-article-id="{{ report.pk }}">삭제</button>
           {% endif %}
         </li>
       {% endfor %}
@@ -58,3 +57,63 @@
     <hr>
 
 {% endblock content %}
+
+{% block script %}
+<script>
+  const formTag = document.querySelector('#delete-form')
+  
+  formTag.addEventListener('submit', function (event){
+    event.preventDefault()
+    const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value
+    reportId = this.dataset.reportId
+
+    if (confirm("정말로 삭제하시겠습니까?")) {
+      axios({
+        method: 'post',
+        url: `/recommend/${reportId}/delete/`,  
+        headers: {'X-CSRFToken': csrftoken},
+      })
+        .then((response) => {
+          if (response.data.ci_delete === true) {
+            alert('게시글이 삭제되었습니다.')
+            window.location.href = "{% url 'recommend:book_report' %}"
+          }
+        })
+        .catch((error) => {
+          console.error('Error:', error)
+          alert('삭제 중 오류가 발생했습니다.')
+        })
+    }
+  })
+
+  document.addEventListener('DOMContentLoaded', function() {
+    const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+    
+    document.querySelectorAll('.delete-comment').forEach(button => {
+      button.addEventListener('click', function() {
+        const commentId = this.dataset.commentId
+        const articleId = this.dataset.articleId
+        
+        if (confirm('정말로 이 댓글을 삭제하시겠습니까?')) {
+          axios.post(`/recommend/${articleId}/comments/${commentId}/delete/`, {}, {
+            headers: {'X-CSRFToken': csrftoken}
+          })
+          .then(response => {
+            if (response.data.success) {
+              document.getElementById(`comment-${commentId}`).remove()
+            } else {
+              alert('댓글 삭제에 실패했습니다.')
+            }
+          })
+          .catch(error => {
+            console.error('Error:', error)
+            alert('댓글 삭제 중 오류가 발생했습니다.')
+          })
+        }
+      })
+    })
+  })
+
+</script>
+
+{% endblock script %}
